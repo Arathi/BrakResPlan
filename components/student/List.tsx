@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Row } from "../common/Grid";
 import Icon from "./Icon";
+import { useDimensionsStore } from "../../stores/DimensionsStore";
 
 type Props = {
   width?: number;
@@ -9,7 +10,14 @@ export default function List({
   width = 6
 }: Props) {
   const containerWidth = 136 * width + 8;
-  let scale = 1; //(360-16) / containerWidth;
+  const margin = 16;
+  const windowSize = useDimensionsStore((state) => state.window);
+
+  // let scale = 1; //(360-16) / containerWidth;
+  let scale = (windowSize.width-margin) / containerWidth;
+  if (scale > 1) {
+    scale = 1;
+  }
 
   const owned = [
     <Icon key={10000} id={10000}></Icon>,
@@ -18,7 +26,6 @@ export default function List({
     <Icon key={10003} id={10003}></Icon>,
     <Icon key={10004} id={10004}></Icon>,
     <Icon key={10005} id={10005}></Icon>,
-    <Icon key={10006} id={10006}></Icon>,
   ];
   const unowned: React.ReactNode[] = [
     <Icon key={10010} id={10010}></Icon>,

@@ -1,16 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import StudentList from './components/student/List';
-import { RecoilRoot } from 'recoil';
+import { useEffect } from 'react';
+import { useDimensionsStore } from './stores/DimensionsStore';
 
 export default function App() {
+  const dimensions = useDimensionsStore();
+
+  useEffect(() => {
+    // 监听窗口大小变化
+    const subscription = Dimensions.addEventListener("change", ({window, screen}) => {
+      console.debug("窗口大小：", window);
+      dimensions.update(window, screen);
+    });
+    return () => {
+      subscription?.remove();
+    };
+  });
+
   return (
-    <RecoilRoot>
-      <View style={styles.container}>
-        <StudentList />
-        <StatusBar style="auto" />
-      </View>
-    </RecoilRoot>
+    <View style={styles.container}>
+      <StudentList width={3} />
+    </View>
   );
 }
 

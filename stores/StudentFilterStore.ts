@@ -1,5 +1,4 @@
-import { atom } from "recoil";
-
+/*
 export const attackTypeExplosiveState = atom({
   key: "attackTypeExplosiveState",
   default: true,
@@ -39,3 +38,6 @@ export const armorTypeElasticState = atom({
   key: "armorTypeElasticState",
   default: true,
 });
+*/
+
+
