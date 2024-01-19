@@ -3,9 +3,16 @@ import { ViewStyleProp } from "../common/styles";
 import Student from '../../domains/archive/Student';
 import Metadata from '../../domains/metadata/Student';
 import { Svg, Image, Path, Rect, G, Defs, ClipPath } from "react-native-svg";
+import { ArmorType, AttackType, Role, CombatClass } from "../../domains/metadata/types";
 
 const AvatarSize = 120;
 const AvatarGap = 4;
+const BorderWidth = 1;
+const Padding = 3;
+const Margin = 4;
+const NameBoxHeight = 28;
+export const IconWidth = AvatarSize + 2*Padding + 2*BorderWidth + 2*Margin;
+export const IconHeight = IconWidth + NameBoxHeight;
 
 type Props = {
   id: number;
@@ -18,14 +25,22 @@ export default function Icon({
   const metadata: Metadata = {
     id: id,
     name: "名称",
+    rarity: 3,
+    attackType: AttackType.Explosive,
+    armorType: ArmorType.Heavy,
+    role: Role.Dealer,
+    combatClass: CombatClass.Striker,
+    equipments: [],
   };
+
   const student: Student = {
     id: id,
     level: 1,
   };
+
   return (
     <View style={[styles.icon, style]}>
-      <Upper metadata={metadata} student={undefined} />
+      <Upper metadata={metadata} student={student} />
       <Lower name={metadata.name} />
     </View>
   );
@@ -153,11 +168,11 @@ function Avatar({
 
 function Overlay({student}: {student?: Student}) {
   if (student == undefined) {
-    return <></>;
+    return null;
   }
 
   const level = student.level;
-  let skills = "1/2/3";
+  let skills = "1/2/3/4";
   let equips = "1/2/3";
 
   return (
@@ -214,8 +229,8 @@ const styles = StyleSheet.create({
 
   overlay: {
     position: "absolute",
-    left: 3,
-    top: 3,
+    left: 8,
+    top: 8,
   },
 
   overlayText: {
@@ -224,7 +239,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 1,
     textShadowOffset: { width: 1, height: 1},
     fontSize: 16,
-    opacity: 0.62,
+    opacity: 0.9,
   },
   level: {},
   levelText: {
@@ -240,7 +255,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: "center",
     alignItems: "flex-end",
-    width: "100%",
     height: 28,
   },
   name: {

@@ -1,13 +1,13 @@
+import { useEffect } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import StudentList from './components/student/List';
-import { useEffect } from 'react';
+import StudentIcon from './components/student/Icon';
 import { useDimensionsStore } from './stores/DimensionsStore';
 
 export default function App() {
   const dimensions = useDimensionsStore();
 
   useEffect(() => {
-    // 监听窗口大小变化
     const subscription = Dimensions.addEventListener("change", ({window, screen}) => {
       console.debug("窗口大小：", window);
       dimensions.update(window, screen);
