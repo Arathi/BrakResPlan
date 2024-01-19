@@ -32,6 +32,9 @@ export default function Icon({
     combatClass: CombatClass.Striker,
     equipments: [],
   };
+  if (metadata == undefined) {
+    return null;
+  }
 
   const student: Student = {
     id: id,
@@ -53,7 +56,7 @@ type UpperProps = {
 function Upper({metadata, student}: UpperProps) {
   return (
     <View style={styles.upper}>
-      <Avatar metadata={metadata} unowned={student==undefined} />
+      <Avatar metadata={metadata} student={student} />
       <Overlay student={student} />
     </View>
   );
@@ -90,12 +93,12 @@ function pathDefinitions({
 
 type AvatarProps = {
   metadata: Metadata;
-  unowned?: boolean;
+  student?: Student;
   style?: ViewStyleProp;
 };
 function Avatar({
   metadata,
-  unowned = false,
+  student,
   style = {}
 }: AvatarProps) {
   const margin = 0;
@@ -111,8 +114,39 @@ function Avatar({
   const clipDefinitions = pathDefinitions({margin: margin+padding, border: border, padding: 0, radius});
   const borderDefinitions = pathDefinitions({margin, border, padding, radius});
 
-  const attackTypeColor = "#ff0000";
-  const armorTypeColor = "#ffff00";
+  const unowned = student == undefined;
+
+  let attackTypeColor = "white";
+  switch (metadata.attackType) {
+    case AttackType.Explosive:
+      attackTypeColor = "#A70C19";
+      break;
+    case AttackType.Piercing:
+      attackTypeColor = "#B26D1F";
+      break;
+    case AttackType.Mystic:
+      attackTypeColor = "#216F9C";
+      break;
+    case AttackType.Sonic:
+      attackTypeColor = "#9431A5";
+      break;
+  }
+
+  let armorTypeColor = "black";
+  switch (metadata.armorType) {
+    case ArmorType.Light:
+      armorTypeColor = "#A70C19";
+      break;
+    case ArmorType.Heavy:
+      armorTypeColor = "#B26D1F";
+      break;
+    case ArmorType.Special:
+      armorTypeColor = "#216F9C";
+      break;
+    case ArmorType.Elastic:
+      armorTypeColor = "#9431A5";
+      break;
+  }
 
   const avatarOffset = margin+border+padding;
   const adTypeHeight = 10;
@@ -152,6 +186,7 @@ function Avatar({
           height={adTypeHeight}
           clipPath="url(#clip)"
         />
+
         <G fill={"#000000"} fillOpacity={opacity}>
           <Rect
             x={0}

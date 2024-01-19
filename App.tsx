@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import StudentList from './components/student/List';
 import StudentIcon from './components/student/Icon';
 import { useDimensionsStore } from './stores/DimensionsStore';
+import Spliter from './components/student/Spliter';
 
 export default function App() {
   const dimensions = useDimensionsStore();
@@ -17,6 +18,8 @@ export default function App() {
     };
   });
 
+  // <StudentList width={3} />
+  // <Spliter height={32} width={360} title={"未持有"} />
   return (
     <View style={styles.container}>
       <StudentList width={3} />
